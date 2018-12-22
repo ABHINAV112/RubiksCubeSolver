@@ -1,6 +1,7 @@
 from Scrambler import ScramblingCube
 from RubiksCube import Rubiks
 from MatrixOperations import SwapArray
+pos = 0
 a = Rubiks()
 ScramblingCube(a)
 myMapping = a.ReturnMapping()
@@ -8,12 +9,13 @@ Moves = []
 verifyWhiteCorner = [(0, 0), (2, 0), (2, 2), (0, 2)]
 yellowCorners = [(0, 2), (2, 2), (2, 0), (0, 0)]
 absolute='****************************'
-a.CubeStatus()
-print(absolute)
+# a.CubeStatus()
+# print(absolute)
 def ExecCubeOperation(objectCube, command):
     exec(objectCube+'.'+command+'()')
 #=================================================================================================================================================================================================================================
 #constructing the white cross
+whiteSide = [(0,1),(1,0),(2,1),(1,2)]
 while True:
     for i in range(1,5):
         while True:
@@ -63,6 +65,11 @@ while True:
                     ExecCubeOperation("a",myMapping[i][0])
             elif(a.cube[i][0][1]!='w' and a.cube[i][1][0]!='w' and a.cube[i][1][2]!='w' and a.cube[i][2][1]!='w'):
                 break
+        if(a.cube[0][whiteSide[i-1][0]][whiteSide[i-1][1]]=='w' and a.cube[i][2][1]!=a.cube[i][1][1]):
+            Moves.append(myMapping[i][0])
+            ExecCubeOperation("a",Moves[-1])
+            Moves.append(myMapping[i][0])
+            ExecCubeOperation("a", Moves[-1])
     testMainList = []
     for i in range(1,5):
         if(a.cube[i][0][1] != 'w' and a.cube[i][1][0] != 'w' and a.cube[i][1][2] != 'w' and a.cube[i][2][1] != 'w'):
@@ -88,6 +95,10 @@ while True:
 for i in range(2):
     a.RotateCubeLeft()
     Moves.append('RL')
+
+# print("White Cross")
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================
 #solving the first layer
 for k in range(1000):
@@ -177,6 +188,9 @@ for k in range(1000):
             ExitList.append(1)
     if(len(ExitList)==4):
         break
+# print('White Corners')
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================================================
 #solving the second layer
 middleLayer = [(0,1),(1,2),(2,1),(1,0)]
@@ -244,6 +258,9 @@ while True:
             testList.append(1)
     if(len(testList) == 4):
         break
+# print('Middle Layer')
+# print(Moves)
+# Moves = []
 #==========================================================================================================================================================================================================================================================================================
 #yellow cross
 Moves.append('RL')
@@ -296,6 +313,9 @@ while True:
         ExecCubeOperation("a", Moves[-1])
     elif(exitCondition):
         break
+# print('yellow cross')
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================================================================================
 #correct yellow cross
 case = 0
@@ -374,8 +394,14 @@ if(case == 3):
 while (a.cube[1][2][1], a.cube[2][2][1], a.cube[3][2][1], a.cube[4][2][1]) != perfect:
     Moves.append(myMapping[0][0])
     ExecCubeOperation("a",Moves[-1])
+# print('correct yellow cross')
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================================================================================
 #correcting edge pieces
+print(absolute)
+a.CubeStatus()
+print(absolute)
 yellowCorners = [(0,0),(2,0),(2,2),(0,2)]
 backSide = [3,4,1,2]
 while True:
@@ -427,6 +453,12 @@ while True:
         ExecCubeOperation("a", Moves[-1])
     if(case == 'perfect'):
         break
+print(absolute)
+a.CubeStatus()
+print(absolute)
+# print('corrected edge pieces')
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================================================================================
 #finshing yellow layer
 algoTimes = []
@@ -460,6 +492,9 @@ for i in range(1,5):
 for i in range(2):
     Moves.append('RL')
     a.RotateCubeLeft()
+# print('complete')
+# print(Moves)
+# Moves = []
 #=================================================================================================================================================================================================================================================================================================================
 a.CubeStatus()
 print(Moves)
