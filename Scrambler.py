@@ -2,8 +2,7 @@ from RubiksCube import Rubiks
 from random import randint
 def ScramblingCube(myCube):   
     myMapping = myCube.ReturnMapping()
-    # noShuffle = randint(500,1000)
-    noShuffle = 10
+    noShuffle = 10000
     shuffleMoves = []
     shuffleMovesIndex = []
     for i in range(noShuffle):
@@ -12,4 +11,3 @@ def ScramblingCube(myCube):
         shuffleMovesIndex.append(MoveIndex)
         shuffleMoves.append(Move)
         exec('myCube.'+Move+'()')
-    print(shuffleMoves)
