@@ -1,6 +1,6 @@
-from MatrixOperations import AntiClockWiseRotation, ClockWiseRotation, PrintMatrix
+from MatrixOperations import anti_clock_wise_rotation, clock_wise_rotation
 
-class Rubiks:
+class RubiksCube:
     # 0-front, 1-top, 2-left, 3-bottom, 4-right, 5-back
     #all the bottom edges are connected to the front face and all the top edges are connected to the back face
     def __init__(self):
@@ -10,14 +10,19 @@ class Rubiks:
             self.cube.append([[i for j in range(3)] for k in range(3)])
         self.mapping = (('f1', 'f2'),('t1', 't2'),('l1', 'l2'),('b1', 'b2'),('r1', 'r2'),('d1','d2'))
 
-    def CubeStatus(self):
-        PrintMatrix(self.cube)
+    def cube_status(self):
+        for i in self.cube:
+            for j in i:
+                for k in j:
+                    print(k, end='')
+                print()
+            print()
     
-    def ReturnMapping(self):
+    def get_mapping(self):
         return self.mapping
 
     def f1(self):   
-        ClockWiseRotation(self.cube[0])
+        clock_wise_rotation(self.cube[0])
         for i in range(3):
             temp = self.cube[1][2][i]
             self.cube[1][2][i] = self.cube[2][2][i]
@@ -26,7 +31,7 @@ class Rubiks:
             self.cube[4][2][i] = temp
     
     def f2(self):
-        AntiClockWiseRotation(self.cube[0])
+        anti_clock_wise_rotation(self.cube[0])
         for i in range(3):
             temp = self.cube[1][2][i]
             self.cube[1][2][i] = self.cube[4][2][i]
@@ -34,7 +39,7 @@ class Rubiks:
             self.cube[3][2][i] = self.cube[2][2][i]
             self.cube[2][2][i] = temp
     
-    def RotateCubeRight(self):
+    def rotate_cube_right(self):
         #right-> front front->left left->back back->right
         temp = self.cube[4]
         self.cube[4] = self.cube[0]
@@ -42,14 +47,14 @@ class Rubiks:
         self.cube[2] = self.cube[5]
         self.cube[5] = temp
 
-        AntiClockWiseRotation(self.cube[0])
-        AntiClockWiseRotation(self.cube[4])
-        AntiClockWiseRotation(self.cube[1])
-        ClockWiseRotation(self.cube[2])
-        ClockWiseRotation(self.cube[5])
-        ClockWiseRotation(self.cube[3])
+        anti_clock_wise_rotation(self.cube[0])
+        anti_clock_wise_rotation(self.cube[4])
+        anti_clock_wise_rotation(self.cube[1])
+        clock_wise_rotation(self.cube[2])
+        clock_wise_rotation(self.cube[5])
+        clock_wise_rotation(self.cube[3])
 
-    def RotateCubeLeft(self):
+    def rotate_cube_left(self):
         #right->front front->left left->back back->right
         temp = self.cube[4]
         self.cube[4] = self.cube[5]
@@ -57,14 +62,14 @@ class Rubiks:
         self.cube[2] = self.cube[0]
         self.cube[0] = temp
 
-        ClockWiseRotation(self.cube[0])
-        ClockWiseRotation(self.cube[2])
-        ClockWiseRotation(self.cube[1])
-        AntiClockWiseRotation(self.cube[5])
-        AntiClockWiseRotation(self.cube[4])
-        AntiClockWiseRotation(self.cube[3])
+        clock_wise_rotation(self.cube[0])
+        clock_wise_rotation(self.cube[2])
+        clock_wise_rotation(self.cube[1])
+        anti_clock_wise_rotation(self.cube[5])
+        anti_clock_wise_rotation(self.cube[4])
+        anti_clock_wise_rotation(self.cube[3])
     
-    def RotateCubeDown(self):
+    def rotate_cube_down(self):
         #top->face face->bottom bottom->back back->top
         temp = self.cube[0]
         self.cube[0] = self.cube[1]
@@ -72,14 +77,14 @@ class Rubiks:
         self.cube[5] = self.cube[3]
         self.cube[3] = temp
 
-        ClockWiseRotation(self.cube[3])
-        ClockWiseRotation(self.cube[3])
-        AntiClockWiseRotation(self.cube[1])
-        AntiClockWiseRotation(self.cube[1])
-        ClockWiseRotation(self.cube[2])
-        AntiClockWiseRotation(self.cube[4])
+        clock_wise_rotation(self.cube[3])
+        clock_wise_rotation(self.cube[3])
+        anti_clock_wise_rotation(self.cube[1])
+        anti_clock_wise_rotation(self.cube[1])
+        clock_wise_rotation(self.cube[2])
+        anti_clock_wise_rotation(self.cube[4])
     
-    def RotateCubeUp(self):
+    def rotate_cube_up(self):
         #front->top top->back back->botton botton->face
         temp = self.cube[1]
         self.cube[1] = self.cube[0]
@@ -87,63 +92,63 @@ class Rubiks:
         self.cube[3] = self.cube[5]
         self.cube[5] = temp
 
-        ClockWiseRotation(self.cube[0])
-        ClockWiseRotation(self.cube[0])
-        AntiClockWiseRotation(self.cube[5])
-        AntiClockWiseRotation(self.cube[5])
-        AntiClockWiseRotation(self.cube[2])
-        ClockWiseRotation(self.cube[4])
+        clock_wise_rotation(self.cube[0])
+        clock_wise_rotation(self.cube[0])
+        anti_clock_wise_rotation(self.cube[5])
+        anti_clock_wise_rotation(self.cube[5])
+        anti_clock_wise_rotation(self.cube[2])
+        clock_wise_rotation(self.cube[4])
 
     def l1(self):
-        self.RotateCubeRight()
+        self.rotate_cube_right()
         self.f1()
-        self.RotateCubeLeft()
+        self.rotate_cube_left()
 
     def l2(self):
-        self.RotateCubeRight()
+        self.rotate_cube_right()
         self.f2()
-        self.RotateCubeLeft()
+        self.rotate_cube_left()
 
     def r1(self):
-        self.RotateCubeLeft()
+        self.rotate_cube_left()
         self.f1()
-        self.RotateCubeRight()
+        self.rotate_cube_right()
 
     def r2(self):
-        self.RotateCubeLeft()
+        self.rotate_cube_left()
         self.f2()
-        self.RotateCubeRight()
+        self.rotate_cube_right()
 
     def t1(self):
-        self.RotateCubeDown()
+        self.rotate_cube_down()
         self.f1()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
 
     def t2(self):
-        self.RotateCubeDown()
+        self.rotate_cube_down()
         self.f2()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
 
     def b1(self):
-        self.RotateCubeUp()
+        self.rotate_cube_up()
         self.f1()
-        self.RotateCubeDown()
+        self.rotate_cube_down()
 
     def b2(self):
-        self.RotateCubeUp()
+        self.rotate_cube_up()
         self.f2()
-        self.RotateCubeDown()
+        self.rotate_cube_down()
 
     def d1(self):
-        self.RotateCubeUp()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
+        self.rotate_cube_up()
         self.f1()
-        self.RotateCubeUp()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
+        self.rotate_cube_up()
 
     def d2(self):
-        self.RotateCubeUp()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
+        self.rotate_cube_up()
         self.f2()
-        self.RotateCubeUp()
-        self.RotateCubeUp()
+        self.rotate_cube_up()
+        self.rotate_cube_up()
